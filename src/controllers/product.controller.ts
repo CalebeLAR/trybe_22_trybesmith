@@ -11,6 +11,14 @@ const create = async (req:Request, res:Response) => {
   return res.status(201).json(data);
 };
 
+const getAll = async (req:Request, res:Response) => {
+  const { status, data } = await productService.getAll();
+  if (status !== 'SUCCESSFUL') return res.status(mapStatusHTTP(status)).json({ message: 'erro' });
+
+  return res.status(200).json(data);
+};
+
 export default {
   create,
+  getAll,
 };

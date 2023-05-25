@@ -8,6 +8,13 @@ const create = async (product:Product):Promise<ServiceResponse<Product>> => {
   return { status: 'SUCCESSFUL', data: newProduct.dataValues };
 };
 
+const getAll = async ():Promise<ServiceResponse<Product[]>> => {
+  const products = (await ProductModel.findAll()).map((pdt) => pdt.dataValues);
+
+  return { status: 'SUCCESSFUL', data: products };
+};
+
 export default {
   create,
+  getAll,
 };
