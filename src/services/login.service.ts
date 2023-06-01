@@ -18,7 +18,7 @@ const login = async (logUser:LoginUser):Promise<ServiceResponse<LoginToken>> => 
   });
 
   if (!user || !bcryptjs.compareSync(password, user.dataValues.password)) {
-    return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
+    return { status: 'UNAUTHORIZED', data: { message: 'user not found' } };
   }
 
   const payload = { id: user?.dataValues, username };
