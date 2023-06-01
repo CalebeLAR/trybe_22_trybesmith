@@ -20,7 +20,7 @@ const login = async (logUser:LoginUser):Promise<ServiceResponse<LoginToken>> => 
     return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
   }
 
-  const payload = { id: user?.dataValues.id, username };
+  const payload = { id: user.dataValues.id, username };
   const token = jwt.sign(payload, JWT_SECRET, { algorithm: 'HS256', expiresIn: '1h' });
 
   return { status: 'SUCCESSFUL', data: { token } };
