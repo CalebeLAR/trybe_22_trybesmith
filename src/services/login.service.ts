@@ -8,7 +8,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
 
 const login = async (logUser:LoginUser):Promise<ServiceResponse<LoginToken>> => {
   const { username, password } = logUser;
-
   if (!password || !username) {
     return { status: 'INVALID_DATA', data: { message: '"username" and "password" are required' } };
   }
@@ -18,10 +17,10 @@ const login = async (logUser:LoginUser):Promise<ServiceResponse<LoginToken>> => 
   });
 
   if (!user || !bcryptjs.compareSync(password, user.dataValues.password)) {
-    return { status: 'UNAUTHORIZED', data: { message: 'user not found' } };
+    return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
   }
 
-  const payload = { id: user?.dataValues, username };
+  const payload = { id: user?.dataValues.id, username };
   const token = jwt.sign(payload, JWT_SECRET, { algorithm: 'HS256', expiresIn: '1h' });
 
   return { status: 'SUCCESSFUL', data: { token } };
