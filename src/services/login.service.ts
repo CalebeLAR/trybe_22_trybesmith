@@ -9,12 +9,16 @@ const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
 const login = async (logUser:LoginUser):Promise<ServiceResponse<LoginToken>> => {
   const { username, password } = logUser;
 
+  if (!password || !username) {
+    return { status: 'INVALID_DATA', data: { message: '"username" and "password" are required' } };
+  }
+
   const user = await UserModel.findOne({
     where: { username },
   });
 
   if (!user || !bcryptjs.compareSync(password, user.dataValues.password)) {
-    return { status: 'SUCCESSFUL', data: { token: 'user not found' } };
+    return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
   }
 
   const payload = { id: user?.dataValues, username };
